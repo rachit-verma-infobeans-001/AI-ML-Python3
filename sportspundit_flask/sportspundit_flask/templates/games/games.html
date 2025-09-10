@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2 style="margin:0 0 12px 0;">{{ sport_slug.title() }} – Games</h2>
+<div class="toolbar">
+  <form method="get">
+    <label for="league_id" style="font-size:14px; color:#444; margin-right:8px;">Filter by league</label>
+    <select name="league_id" id="league_id" onchange="this.form.submit()">
+      <option value="">All leagues</option>
+      {% for lg in leagues %}
+        <option value="{{ lg.id }}" {% if selected_league_id==lg.id %}selected{% endif %}>{{ lg.name }}</option>
+      {% endfor %}
+    </select>
+  </form>
+</div>
+
+<div class="card">
+  <div class="header">
+    <div class="cell">Date</div>
+    <div class="cell">Game</div>
+    <div class="cell">League</div>
+    <div class="cell">Comparison</div>
+  </div>
+  {% for g in items %}
+    <div class="row">
+      <div class="cell datebox">{{ g.day }}<small>{{ g.date }}</small></div>
+      <div class="cell game">
+        <a href="/{{ sport_slug }}/games/{{ g.id }}">{{ g.title }}</a>
+        <div class="sub">at {{ g.venue }}</div>
+      </div>
+      <div class="cell league">
+        <a href="/{{ sport_slug }}/leagues/{{ g.league_id }}">{{ g.league_name }}</a>
+      </div>
+      <div class="cell vs">
+        <a href="/{{ sport_slug }}/teams/vs/{{ g.vs_slug }}">VS</a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+{% if total_pages > 1 %}
+  <div class="pager" style="margin-top:8px;">
+    {% set prev = page-1 %}
+    {% set next = page+1 %}
+    {% if page>1 %}
+      <a href="?page=1{% if selected_league_id %}&league_id={{ selected_league_id }}{% endif %}">First</a>
+      <a href="?page={{ prev }}{% if selected_league_id %}&league_id={{ selected_league_id }}{% endif %}">Prev</a>
+    {% endif %}
+    <span class="active">Page {{ page }} of {{ total_pages }}</span>
+    {% if page<total_pages %}
+      <a href="?page={{ next }}{% if selected_league_id %}&league_id={{ selected_league_id }}{% endif %}">Next</a>
+      <a href="?page={{ total_pages }}{% if selected_league_id %}&league_id={{ selected_league_id }}{% endif %}">Last</a>
+    {% endif %}
+  </div>
+{% endif %}
+{% endblock %}

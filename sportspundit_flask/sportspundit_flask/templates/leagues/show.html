@@ -1,0 +1,17 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>{{ league.name }}</h2>
+<ul>
+  {% for g in games %}
+    <li>
+      <a href="/{{ sport_slug }}/games/{{ g.id }}">
+        {% if g.start_at %}
+            {{ g.home_team_name }} vs {{ g.away_team_name }} – {{ g.start_at.strftime('%b %d, %Y') }}
+        {% else %}
+            {{ g.home_team_name }} vs {{ g.away_team_name }} – TBD
+        {% endif %} 
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>{{ game.home_team_name }} vs {{ game.away_team_name }}</h2>
+
+<div class="scorecard">
+  <div class="team">
+    <h3>{{ game.home_team_name }}</h3>
+    <div class="score">{{ game.home_score }}</div>
+  </div>
+  <div class="team">
+    <h3>{{ game.away_team_name }}</h3>
+    <div class="score">{{ game.away_score }}</div>
+  </div>
+</div>
+
+<p><strong>League:</strong> <a href="/{{ sport_slug }}/leagues/{{ game.league_id }}">{{ game.league_name }}</a></p>
+<p><strong>Venue:</strong> {{ game.venue_name }}</p>
+{% if game.start_at %}
+    <p><strong>Date:</strong> {{ game.start_at.strftime('%b %d, %Y %I:%M %p') }}</p>
+{% else %}
+    <p><strong>Date:</strong> TBD</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h2>Head-to-Head: {{ vs_slug.replace('-', ' ').title() }}</h2>
+<table>
+  <tr>
+    <th>Date</th><th>Match</th><th>Score</th>
+  </tr>
+  {% for m in matchups %}
+    <tr>
+        {% if m.start_at %}
+          <td>{{ m.start_at.strftime('%b %d, %Y') }}</td>
+        {% else %}
+          <td>TBD</td>
+        {% endif %} 
+      <td><a href="/{{ sport_slug }}/games/{{ m.id }}">{{ m.home_team_name }} vs {{ m.away_team_name }}</a></td>
+      <td>{{ m.home_score }} - {{ m.away_score }}</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}
